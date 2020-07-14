@@ -1,0 +1,9 @@
+on post-fs-data
+    mkdir /data/misc/ric 0775 system system
+
+service ric /sbin/magiskhide --exec /sbin/ric
+    user root
+    group root drmrpc trimarea system
+    class main
+    seclabel u:r:magisk:s0
+

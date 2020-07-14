@@ -4,23 +4,22 @@
 ## AnyKernel setup
 # begin properties
 properties() { '
-kernel.string=ExampleKernel by osm0sis @ xda-developers
+kernel.string=Sony XZ1 Dual Kernel by Amy07i @ xda-developers
 do.devicecheck=1
-do.modules=0
+do.modules=1
 do.systemless=1
 do.cleanup=1
 do.cleanuponabort=0
-device.name1=maguro
-device.name2=toro
-device.name3=toroplus
-device.name4=tuna
-device.name5=
-supported.versions=
+device.name1=poplar_dsds
+device.name2=polar
+device.name3=G8342
+device.name4=G8341
+supported.versions=9.0.0
 supported.patchlevels=
 '; } # end properties
 
 # shell variables
-block=/dev/block/platform/omap/omap_hsmmc.0/by-name/boot;
+block=${KERNEL_IMAGE_FILE:-/dev/block/bootdevice/by-name/boot};
 is_slot_device=0;
 ramdisk_compression=auto;
 
@@ -41,21 +40,13 @@ dump_boot;
 
 # begin ramdisk changes
 
-# init.rc
-backup_file init.rc;
-replace_string init.rc "cpuctl cpu,timer_slack" "mount cgroup none /dev/cpuctl cpu" "mount cgroup none /dev/cpuctl cpu,timer_slack";
-
-# init.tuna.rc
-backup_file init.tuna.rc;
-insert_line init.tuna.rc "nodiratime barrier=0" after "mount_all /fstab.tuna" "\tmount ext4 /dev/block/platform/omap/omap_hsmmc.0/by-name/userdata /data remount nosuid nodev noatime nodiratime barrier=0";
-append_file init.tuna.rc "bootscript" init.tuna;
-
-# fstab.tuna
-backup_file fstab.tuna;
-patch_fstab fstab.tuna /system ext4 options "noatime,barrier=1" "noatime,nodiratime,barrier=0";
-patch_fstab fstab.tuna /cache ext4 options "barrier=1" "barrier=0,nomblk_io_submit";
-patch_fstab fstab.tuna /data ext4 options "data=ordered" "nomblk_io_submit,data=writeback";
-append_file fstab.tuna "usbdisk" fstab;
+# a hack for sony ric daemon - we need to hide magisk from it to avoid bootloop
+# this is supported since magisk-19.3, for more details see
+# https://github.com/topjohnwu/Magisk/pull/1454
+if [ -e $ramdisk/sbin/ric ] && grep -q magisk $ramdisk/init; then
+  append_file init.rc "/sbin/magiskhide --exec /sbin/ric" init.ric.rc;
+  repack_ramdisk;
+fi
 
 # end ramdisk changes
 
