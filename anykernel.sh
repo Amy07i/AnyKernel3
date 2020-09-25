@@ -27,7 +27,37 @@ ramdisk_compression=auto;
 ## AnyKernel methods (DO NOT CHANGE)
 # import patching functions/variables - see for reference
 . tools/ak3-core.sh;
+ui_print "Kernel Message:";
+ui_print "Stock kernel Plus for Sony Xperia XZ1 Dual";
+ui_print "CAF Version: LA.UM.8.4.r1-06000-8x98.0";
+ui_print "Linux Version: 4.4.237";
+ui_print "WLAN driver: LA.UM.7.4.r1-06000-8x98.0 Release 5.1.1.76C";
+ui_print "Compiler:Aosp Clang version 11.0.4";
 
+# increase zram size to 1.5GB
+mount -o rw,remount /vendor;
+fstab=/vendor/etc/fstab.qcom;
+chattr -R -i /vendor/etc/;
+chattr -R -a /vendor/etc/;
+if [ $(cat $fstab | grep 'zramsize=536870912' | wc -l) -eq "1" ]; then
+	ui_print "zram size is 512M, change to 1.5G......";
+	replace_string $fstab '1610612736' 'zramsize=536870912' 'zramsize=1610612736';
+elif [ $(cat $fstab | grep 'zramsize=1073741824' | wc -l) -eq "1" ]; then
+	ui_print "zram size is 1G, change to 1.5G......";
+	replace_string $fstab '1610612736' 'zramsize=1073741824' 'zramsize=1610612736';
+elif [ $(cat $fstab | grep 'zramsize=1610612736' | wc -l) -eq "1" ]; then
+	ui_print "zram size is 1.5G, nothing need to do......";
+fi
+
+# check zram size
+if [ $(cat $fstab | grep 'zramsize=1610612736' | wc -l) -eq "0" ]; then
+	ui_print "increase zram size failed......";
+else
+	ui_print "increase zram size success......";
+fi
+chattr -R +a /vendor/etc/;
+chattr -R +i /vendor/etc/;
+mount -o ro,remount /vendor;
 
 ## AnyKernel file attributes
 # set permissions/ownership for included ramdisk files
