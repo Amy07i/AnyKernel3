@@ -32,7 +32,7 @@ ui_print "Stock kernel Plus for Sony Xperia XZ1 Dual";
 ui_print "CAF Version: LA.UM.8.4.r1-06000-8x98.0";
 ui_print "Linux Version: 4.4.237";
 ui_print "WLAN driver: LA.UM.7.4.r1-06000-8x98.0 Release 5.1.1.76C";
-ui_print "Compiler:Aosp Clang version 11.0.4";
+ui_print "Compiler:Proton Clang version 12.0.0";
 
 # increase zram size to 1.5GB
 mount -o rw,remount /vendor;
