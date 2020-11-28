@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--
+ * Copyright (c) 2017-2018 Qualcomm Technologies, Inc.
+ * All Rights Reserved.
+ * Confidential and Proprietary - Qualcomm Technologies, Inc.
+-->
+
+<!-- This is a target specific resource config file which can be
+used to overwrite the node paths mentioned in common resources file
+and also to mention the resources which are not supported. -->
+
+<!-- This file supports only Config tag, which has the following fields
+* MajorValue and MinorValue, both are required to uniquely
+identify the resource.
+* Node, the new node path to overwrite the already existing one
+of commonresourceconfigs.xml file.
+* Supported, to indicate whether the resource is supported or not.
+* For each config tag, either of Node or Supported fields need
+to be mentioned. -->
+
+<!-- NOTE - It is not Mandatory to write all the resources which are not supported
+as anyway perflock calls of these resources would fail. -->
+
+<ResourceConfigs>
+    <PerfResources>
+
+        <Config MajorValue="0x1" MinorValue="0x2" Supported="no" /> <!-- lpm_bias_hyst -->
+
+        <Config MajorValue="0x3" MinorValue="0x3" Supported="no" /> <!-- sched_small_task -->
+        <Config MajorValue="0x3" MinorValue="0x19" Supported="no" /> <!-- sched_initial_task_util -->
+        <Config MajorValue="0x3" MinorValue="0x1A" Supported="no" /> <!-- sched_load_boost -->
+
+        <!-- Disable interactive governor -->
+        <Config MajorValue="0x5" MinorValue="0x0" Supported="no" /> <!-- above_hispeed_delay -->
+        <Config MajorValue="0x5" MinorValue="0x1" Supported="no" /> <!-- boost -->
+        <Config MajorValue="0x5" MinorValue="0x3" Supported="no" /> <!-- boostpulse_duration -->
+        <Config MajorValue="0x5" MinorValue="0x4" Supported="no" /> <!-- go_hispeed_load -->
+        <Config MajorValue="0x5" MinorValue="0x5" Supported="no" /> <!-- hispeed_freq -->
+        <Config MajorValue="0x5" MinorValue="0x6" Supported="no" /> <!-- io_is_busy -->
+        <Config MajorValue="0x5" MinorValue="0x7" Supported="no" /> <!-- min_sample_time -->
+        <Config MajorValue="0x5" MinorValue="0x8" Supported="no" /><!-- target_loads -->
+        <Config MajorValue="0x5" MinorValue="0x9" Supported="no" /> <!-- timer_rate -->
+        <Config MajorValue="0x5" MinorValue="0xA" Supported="no" /> <!-- timer_slack -->
+        <Config MajorValue="0x5" MinorValue="0xB" Supported="no" /> <!-- max_freq_hysteresis -->
+        <Config MajorValue="0x5" MinorValue="0xC" Supported="no" /> <!-- use_sched_load -->
+        <Config MajorValue="0x5" MinorValue="0xD" Supported="no" /> <!-- use_migration_notif -->
+        <Config MajorValue="0x5" MinorValue="0xE" Supported="no" /> <!-- ignore_hispeed_on_notif -->
+
+        <Config MajorValue="0xB" MinorValue="0x6" Supported="no" /> <!-- enable_process_reclaim -->
+
+        <!-- All the minors of LLCBW_HWMON MAJOR are not supported -->
+        <Config MajorValue="0xC" MinorValue="0x0" Supported="no" />
+        <Config MajorValue="0xC" MinorValue="0x1" Supported="no" />
+        <Config MajorValue="0xC" MinorValue="0x2" Supported="no" />
+        <Config MajorValue="0xC" MinorValue="0x3" Supported="no" />
+
+        <Config MajorValue="0xD" MinorValue="0x0" Supported="no" /> <!--  l3_min_freq -->
+
+    </PerfResources>
+</ResourceConfigs>

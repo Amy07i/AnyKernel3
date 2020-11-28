@@ -23,7 +23,6 @@ block=${KERNEL_IMAGE_FILE:-/dev/block/bootdevice/by-name/boot};
 is_slot_device=0;
 ramdisk_compression=auto;
 
-
 ## AnyKernel methods (DO NOT CHANGE)
 # import patching functions/variables - see for reference
 . tools/ak3-core.sh;
@@ -66,6 +65,10 @@ if [ -e $ramdisk/sbin/ric ] && grep -q magisk $ramdisk/init; then
   append_file init.rc "/sbin/magiskhide --exec /sbin/ric" init.ric.rc;
   repack_ramdisk;
 fi
+
+# for EAS
+patch_cmdline "sched_enable_hmp=1" "";
+patch_cmdline "sched_enable_power_aware=1" "";
 
 # end ramdisk changes
 
