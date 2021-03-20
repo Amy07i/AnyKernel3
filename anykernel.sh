@@ -60,10 +60,6 @@ if [ -e $ramdisk/sbin/ric ] && grep -q magisk $ramdisk/init; then
   repack_ramdisk;
 fi
 
-# for EAS
-patch_cmdline "sched_enable_hmp=1" "";
-patch_cmdline "sched_enable_power_aware=1" "";
-
 # end ramdisk changes
 
 write_boot;
