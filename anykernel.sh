@@ -33,9 +33,11 @@ fstab=/vendor/etc/fstab.qcom;
 chattr -R -i /vendor/etc/;
 chattr -R -a /vendor/etc/;
 if [ $(cat $fstab | grep 'zramsize=536870912' | wc -l) -eq "1" ]; then
-	replace_string $fstab '1610612736' 'zramsize=536870912' 'zramsize=1610612736';
+	replace_string $fstab '2147483648' 'zramsize=536870912' 'zramsize=2147483648';
 elif [ $(cat $fstab | grep 'zramsize=1073741824' | wc -l) -eq "1" ]; then
-	replace_string $fstab '1610612736' 'zramsize=1073741824' 'zramsize=1610612736';
+	replace_string $fstab '2147483648' 'zramsize=1073741824' 'zramsize=2147483648';
+elif [ $(cat $fstab | grep 'zramsize=1610612736' | wc -l) -eq "1" ]; then
+	replace_string $fstab '2147483648' 'zramsize=1610612736' 'zramsize=2147483648';
 fi
 
 chattr -R +a /vendor/etc/;
