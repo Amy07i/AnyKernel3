@@ -27,17 +27,16 @@ ramdisk_compression=auto;
 # import patching functions/variables - see for reference
 . tools/ak3-core.sh;
 
-# increase zram size to 1.5GB
+# mount vendor partion as rw
 mount -o rw,remount /vendor;
 fstab=/vendor/etc/fstab.qcom;
 chattr -R -i /vendor/etc/;
 chattr -R -a /vendor/etc/;
-if [ $(cat $fstab | grep 'zramsize=536870912' | wc -l) -eq "1" ]; then
-	replace_string $fstab '1610612736' 'zramsize=536870912' 'zramsize=1610612736';
-elif [ $(cat $fstab | grep 'zramsize=1073741824' | wc -l) -eq "1" ]; then
-	replace_string $fstab '1610612736' 'zramsize=1073741824' 'zramsize=1610612736';
-fi
 
+# increase zram size to 1.5GB
+sed -i 's/zramsize=.*/zramsize=1610612736/' $fstab;
+
+# mount vendor partion as ro back
 chattr -R +a /vendor/etc/;
 chattr -R +i /vendor/etc/;
 mount -o ro,remount /vendor;
